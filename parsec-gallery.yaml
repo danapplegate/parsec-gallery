@@ -21,7 +21,7 @@ spec:
         emptyDir: {}
       containers:
       - name: gallery-nginx
-        image: 589318761596.dkr.ecr.us-east-1.amazonaws.com/parsecgallery-nginx:38bc688
+        image: 589318761596.dkr.ecr.us-east-1.amazonaws.com/parsecgallery-nginx:1ce840d
         volumeMounts:
         - mountPath: /usr/share/nginx/html/images
           name: images
