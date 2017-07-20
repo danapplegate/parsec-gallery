@@ -26,7 +26,7 @@ spec:
         - mountPath: /usr/share/nginx/html/images
           name: images
       - name: gallery-app
-        image: 589318761596.dkr.ecr.us-east-1.amazonaws.com/parsecgallery-app:81753e9
+        image: 589318761596.dkr.ecr.us-east-1.amazonaws.com/parsecgallery-app:7ed7e28
         env:
         - name: GALLERY_HOSTNAME
           value: "gallery.parsec.tv"
