@@ -73,15 +73,30 @@
   });
 
   // UPLOAD
-  const uploader = dom.querySelector('.uploader');
-  uploader.addEventListener('change', () => {
-    const data = new FormData();
-    data.append('image', uploader.files[0]);
-
-    fetch('/images', {
-      method: 'POST',
-      body: data,
-    });
+  const overlay = dom.querySelector('.js-overlay');
+  overlay.addEventListener('click', () => {
+    overlay.classList.remove('visible');
   });
+
+  const modal = dom.querySelector('.js-modal');
+  modal.addEventListener('click', event => {
+    event.stopPropagation();
+  });
+
+  const uploadToggle = dom.querySelector('.js-upload-toggle');
+  uploadToggle.addEventListener('click', () => {
+    overlay.classList.toggle('visible');
+  });
+
+  // const uploader = dom.querySelector('.uploader');
+  // uploader.addEventListener('change', () => {
+  //   const data = new FormData();
+  //   data.append('image', uploader.files[0]);
+
+  //   fetch('/images', {
+  //     method: 'POST',
+  //     body: data,
+  //   });
+  // });
 
 })(window, document);

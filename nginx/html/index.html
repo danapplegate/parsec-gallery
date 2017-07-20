@@ -11,14 +11,29 @@
       <header class="header">
         <h1 class="title">Parsec Gallery</h1>
 
-        <input class="uploader" type="file">
-        <button class="upload">Upload</button>
+        <button class="button upload-toggle js-upload-toggle">Upload</button>
       </header>
 
       <div class="gallery js-gallery"></div>
+
+      <div class="overlay js-overlay">
+        <div class="modal js-modal">
+          <div class="modal-content">
+            <h2 class="modal-title">Upload a Screenshot</h2>
+
+            <div class="upload-area">
+              <p class="upload-instructions">Drop a file or click here to upload a screenshot.</p>
+              <input class="upload-input" type="file" required novalidate>
+            </div>
+
+            <div class="actions">
+              <button class="button upload-submit js-upload-submit">Upload</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <script src="/js/infiniteScroll.js"></script>
     <script src="/js/index.js"></script>
   </body>
 </html>
