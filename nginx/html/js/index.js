@@ -16,13 +16,15 @@
   const renderImage = createElement(imageTemplate);
 
   // FETCH
+  let count = 0;
+
   const elementIsVisible = el => {
     const rect = el.getBoundingClientRect();
     return rect.top >= 0 && rect.bottom <= (root.innerHeight || dom.documentElement.clientHeight);
   }
 
   const gallery = dom.querySelector('.js-gallery');
-  const fetchImages = () => fetch('/images').then(response => response.json());
+  const fetchImages = (offset = 0, limit = 9) => fetch(`/images?offset=${ offset }&limit=${ limit }`).then(response => response.json());
 
   const appendImages = response => {
     const fragment = dom.createDocumentFragment();
@@ -31,6 +33,7 @@
       .forEach(fragment.appendChild.bind(fragment));
 
     gallery.appendChild(fragment);
+    count += response.images.length;
 
     [].slice.call(gallery.childNodes, -3).forEach(image => {
       if (!elementIsVisible(image)) {
@@ -45,13 +48,13 @@
   // INFINITE SCROLL
   let animating = false;
   const SCROLL_THRESHOLD = 10;
-  root.addEventListener('scroll', () => {
+  const onScroll = () => {
     const position = dom.body.scrollTop + root.innerHeight;
     const height = gallery.clientHeight;
 
     if (!animating && position > height - SCROLL_THRESHOLD) {
       animating = true;
-      const nextPage = fetchImages();
+      const nextPage = fetchImages(count);
 
       const screenshots = dom.querySelectorAll('.js-next-screenshot');
 
@@ -69,8 +72,15 @@
         nextPage.then(appendImages);
         animating = false;
       }, 500);
+
+      nextPage.then(response => {
+        if (!response.images.length) {
+          root.removeEventListener('scroll', onScroll);
+        }
+      });
     }
-  });
+  };
+  root.addEventListener('scroll', onScroll);
 
   // UPLOAD
   const overlay = dom.querySelector('.js-overlay');
