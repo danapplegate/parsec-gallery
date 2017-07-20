@@ -24,8 +24,8 @@ def rel_path(image_path):
 
 @app.route('/images', methods=['GET'])
 def list_images():
-	offset = request.args.get('offset', 0)
-	limit = request.args.get('limit', DEFAULT_PAGE_SIZE)
+	offset = int(request.args.get('offset', 0))
+	limit = int(request.args.get('limit', DEFAULT_PAGE_SIZE))
 	stop_index = offset + limit
 	images = glob.glob(UPLOAD_DIR + '*')
 	images = [rel_path(image) for image in images]
