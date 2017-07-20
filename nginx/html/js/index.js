@@ -23,4 +23,16 @@
     }
   });
 
+  const uploader = dom.querySelector('.uploader');
+
+  uploader.addEventListener('change', () => {
+    const data = new FormData();
+    data.append('image', uploader.files[0]);
+
+    fetch('/images', {
+      method: 'POST',
+      body: data,
+    });
+  });
+
 })(window, document);
