@@ -1,3 +1,4 @@
+from datetime import datetime
 import glob
 import logging
 import os
@@ -24,6 +25,8 @@ def rel_path(image_path):
 def list_images():
 	images = glob.glob(UPLOAD_DIR + '*')
 	images = [rel_path(image) for image in images]
+	images.sort()
+	images.reverse()
 	return jsonify(images=images)
 
 
@@ -31,8 +34,10 @@ def list_images():
 def create_image():
 	f = request.files['image']
 	filename = secure_filename(f.filename)
-	tmp_file = TMP_DIR + filename
-	dst_file = UPLOAD_DIR + splitext(filename)[0] + '.png'
+	td = datetime.now() - datetime(1970, 1, 1)
+	time_str = str(int(td.total_seconds()))
+	tmp_file = TMP_DIR + time_str + filename
+	dst_file = UPLOAD_DIR + time_str + splitext(filename)[0] + '.png'
 	logger.info(u"Saving tmp file to {}".format(tmp_file))
 	f.save(tmp_file)
 
