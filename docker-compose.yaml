@@ -13,6 +13,7 @@ services:
       - "3031:3031"
     environment:
       FLASK_DEBUG: 1
+      GALLERY_HOSTNAME: "localhost:8080"
     volumes:
       - image-volume:/usr/share/nginx/html/images
 volumes:
