@@ -69,6 +69,15 @@ def create_image():
 	file_path = rel_path(dst_file)
 
 	requests.post(DISCORD_WEBHOOK_URL, data={
-		'content': 'New screenshot posted in Parsec Gallery! http://' + GALLERY_HOSTNAME + '/?' + file_path
+		"embeds": [{
+			"title": "New screenshot posted in Parsec Gallery!",
+			"type": "image",
+			"url": GALLERY_HOSTNAME + "?" + file_path,
+			"image": {
+				"width": 800,
+				"height": 600,
+				"url": GALLERY_HOSTNAME + "/images/" + file_path
+			}
+		}]
 	})
 	return jsonify(path=file_path)
