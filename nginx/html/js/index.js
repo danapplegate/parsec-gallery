@@ -7,9 +7,19 @@
     const height = document.body.clientHeight;
 
     if (position > height - SCROLL_THRESHOLD) {
-      dom.querySelectorAll('.js-next-screenshot').forEach(screenshot => {
+      const screenshots = dom.querySelectorAll('.js-next-screenshot');
+
+      screenshots.forEach(screenshot => {
         screenshot.classList.add('animating');
       });
+
+      setTimeout(() => {
+        screenshots.forEach(screenshot => {
+          screenshot.classList.remove('next-screenshot');
+          screenshot.classList.remove('js-next-screenshot');
+          screenshot.classList.remove('animating');
+        });
+      }, 500)
     }
   });
 

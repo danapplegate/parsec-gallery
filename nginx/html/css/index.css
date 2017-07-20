@@ -78,7 +78,7 @@ body {
   position: absolute;
   bottom: 0;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
-  transition: 0.25s ease-in-out all;
+  transition: 0.5s ease-in-out all;
 }
 
 .next-screenshot:nth-last-child(1) {
