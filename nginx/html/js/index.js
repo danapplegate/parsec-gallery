@@ -2,13 +2,13 @@
 
   // IMAGES
   const imageTemplate = image => `
-    <div class="screenshot">
-      <img class="screenshot-image" src="${ image }">
-    </div>
+    <a class="screenshot" href="/?${ image }">
+      <img class="screenshot-image" src="/images/${ image }">
+    </a>
   `.trim();
 
   const heroTemplate = image => `
-    <img class="hero-image" src="${ image }">
+    <img class="hero-image" src="/images/${ image }">
   `
 
   const createElement = template => model => {
@@ -121,7 +121,7 @@
   // BOOTSTRAP
   if (root.location.search) {
     const hero = dom.querySelector('.js-hero');
-    hero.appendChild(renderHero(`/images/${ root.location.search.slice(1) }`));
+    hero.appendChild(renderHero(root.location.search.slice(1)));
     document.querySelectorAll('.js-hero-page').forEach(node => node.classList.add('visible'));
   } else {
     fetchImages().then(appendImages);

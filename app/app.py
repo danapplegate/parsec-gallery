@@ -19,7 +19,7 @@ logger.setLevel(logging.DEBUG)
 
 
 def rel_path(image_path):
-	return '/images/' + basename(image_path)
+	return basename(image_path)
 
 
 @app.route('/images', methods=['GET'])
