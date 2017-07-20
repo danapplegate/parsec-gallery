@@ -11,6 +11,7 @@ app = Flask(__name__)
 UPLOAD_DIR = '/usr/share/nginx/html/images/'
 TMP_DIR = '/tmp/'
 WATERMARK_PATH = 'parsec-logo.png'
+DEFAULT_PAGE_SIZE = 9
 
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.StreamHandler())
@@ -23,11 +24,14 @@ def rel_path(image_path):
 
 @app.route('/images', methods=['GET'])
 def list_images():
+	offset = request.args.get('offset', 0)
+	limit = request.args.get('limit', DEFAULT_PAGE_SIZE)
+	stop_index = offset + limit
 	images = glob.glob(UPLOAD_DIR + '*')
 	images = [rel_path(image) for image in images]
 	images.sort()
 	images.reverse()
-	return jsonify(images=images)
+	return jsonify(images=images[offset:stop_index])
 
 
 @app.route('/images', methods=['POST'])
