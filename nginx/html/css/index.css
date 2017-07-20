@@ -78,17 +78,34 @@ body {
   position: absolute;
   bottom: 0;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+  transition: 0.25s ease-in-out all;
 }
 
 .next-screenshot:nth-last-child(1) {
-  transform: translate(180%, 90%) rotate(6deg);
+  transform: translate(180%, 80%) rotate(6deg);
 }
 
 .next-screenshot:nth-last-child(2) {
-  transform: translate(100%, 80%) rotate(1deg);
+  transform: translate(100%, 70%) rotate(1deg);
   z-index: 1;
 }
 
 .next-screenshot:nth-last-child(3) {
-  transform: translate(20%, 90%) rotate(-5deg);
+  transform: translate(20%, 80%) rotate(-5deg);
+}
+
+.next-screenshot.animating {
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+}
+
+.next-screenshot.animating:nth-last-child(1) {
+  transform: translate(200%, 0) rotate(0);
+}
+
+.next-screenshot.animating:nth-last-child(2) {
+  transform: translate(100%, 0) rotate(0);
+}
+
+.next-screenshot.animating:nth-last-child(3) {
+  transform: translate(0, 0) rotate(0);
 }
