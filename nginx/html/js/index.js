@@ -46,10 +46,8 @@
   let animating = false;
   const SCROLL_THRESHOLD = 10;
   root.addEventListener('scroll', () => {
-    console.log('test');
     const position = dom.body.scrollTop + root.innerHeight;
-    const height = dom.body.clientHeight;
-
+    const height = gallery.clientHeight;
 
     if (!animating && position > height - SCROLL_THRESHOLD) {
       animating = true;
