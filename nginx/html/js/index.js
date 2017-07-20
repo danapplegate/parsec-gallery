@@ -23,7 +23,7 @@
 
   const gallery = document.querySelector('.js-gallery');
   const fetchImages = () => (
-    fetch('/')
+    fetch('/images')
       .then(response => response.json())
       .then(response => {
         const fragment = document.createDocumentFragment();
