@@ -8,6 +8,7 @@ WORKDIR /opt/parsec/gallery
 COPY requirements.txt ./
 RUN pip install -r requirements.txt
 
+VOLUME /usr/share/nginx/html/images
 EXPOSE 3031
 
 COPY . ./
