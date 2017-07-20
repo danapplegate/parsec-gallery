@@ -72,14 +72,16 @@ def create_image():
 		"embeds": [{
 			"title": "New screenshot posted in Parsec Gallery!",
 			"type": "image",
-			"url": "http://" + GALLERY_HOSTNAME + "/?" + file_path,
+			"url": "http://gallery.parsec.tv/?" + file_path,
 			"image": {
 				"width": 800,
 				"height": 600,
-				"url": "http://" + GALLERY_HOSTNAME + "/images/" + file_path
+				"url": "http://gallery.parsec.tv/images/" + file_path
 			}
 		}]
 	}
+
+	logger.info(data)
 
 	requests.post(DISCORD_WEBHOOK_URL, data=data)
 	return jsonify(path=file_path)
