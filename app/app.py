@@ -7,8 +7,8 @@ app = Flask(__name__)
 UPLOAD_DIR = '/usr/share/nginx/html/images/'
 
 
-@app.route('/')
-def hello_world():
+@app.route('/images', methods=['GET'])
+def list_images():
 	images = glob.glob(UPLOAD_DIR + '*')
 	images = ['/images/' + basename(image) for image in images]
 	return jsonify(images=images)
