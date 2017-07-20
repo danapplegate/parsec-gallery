@@ -7,6 +7,10 @@
     </div>
   `.trim();
 
+  const heroTemplate = image => `
+    <img class="hero-image" src="${ image }">
+  `
+
   const createElement = template => model => {
     const wrapper = dom.createElement('template');
     wrapper.innerHTML = template(model);
@@ -14,6 +18,7 @@
   };
 
   const renderImage = createElement(imageTemplate);
+  const renderHero = createElement(heroTemplate);
 
   // FETCH
   let count = 0;
@@ -42,8 +47,6 @@
       }
     });
   };
-
-  fetchImages().then(appendImages);
 
   // INFINITE SCROLL
   let animating = false;
@@ -80,7 +83,6 @@
       });
     }
   };
-  root.addEventListener('scroll', onScroll);
 
   // UPLOAD
   const overlay = dom.querySelector('.js-overlay');
@@ -115,5 +117,17 @@
         overlay.classList.remove('visible');
       });
   });
+
+  // BOOTSTRAP
+  if (root.location.search) {
+    const hero = dom.querySelector('.js-hero');
+    hero.appendChild(renderHero(`/images/${ root.location.search.slice(1) }`));
+    document.querySelectorAll('.js-hero-page').forEach(node => node.classList.add('visible'));
+  } else {
+    fetchImages().then(appendImages);
+    root.addEventListener('scroll', onScroll);
+    document.querySelectorAll('.js-gallery-page').forEach(node => node.classList.add('visible'));
+  }
+
 
 })(window, document);

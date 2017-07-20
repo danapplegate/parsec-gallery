@@ -55,6 +55,13 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   }
 
+  .see-more {
+    color: #1bb9ec;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+
 .overlay {
   position: fixed;
   top: 0;
@@ -167,7 +174,7 @@ body {
   padding-bottom: 25%;
 }
 
-.screenshot {
+.gallery > .screenshot {
   display: block;
   position: relative;
   width: calc(100% / 3);
@@ -217,4 +224,28 @@ body {
 
 .next-screenshot.animating:nth-last-child(3) {
   transform: translate(0, 0) rotate(0);
+}
+
+.hero {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.hero > .hero-image {
+  display: block;
+}
+
+.js-gallery-page,
+.js-hero-page {
+  display: none;
+}
+
+.js-gallery-page.visible,
+.js-hero-page.visible {
+  display: flex;
 }
