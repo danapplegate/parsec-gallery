@@ -18,37 +18,42 @@
   // FETCH
   const elementIsVisible = el => {
     const rect = el.getBoundingClientRect();
-    return rect.top >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight);
+    return rect.top >= 0 && rect.bottom <= (root.innerHeight || dom.documentElement.clientHeight);
   }
 
-  const gallery = document.querySelector('.js-gallery');
-  const fetchImages = () => (
-    fetch('/images')
-      .then(response => response.json())
-      .then(response => {
-        const fragment = document.createDocumentFragment();
-        response.images
-          .map(renderImage)
-          .forEach(fragment.appendChild.bind(fragment));
+  const gallery = dom.querySelector('.js-gallery');
+  const fetchImages = () => fetch('/images').then(response => response.json());
 
-        gallery.appendChild(fragment);
+  const appendImages = response => {
+    const fragment = dom.createDocumentFragment();
+    response.images
+      .map(renderImage)
+      .forEach(fragment.appendChild.bind(fragment));
 
-        [].slice.call(gallery.childNodes, -3).forEach(image => {
-          image.classList.add('next-screenshot');
-          image.classList.add('js-next-screenshot');
-        });
-      })
-  );
+    gallery.appendChild(fragment);
 
-  fetchImages();
+    [].slice.call(gallery.childNodes, -3).forEach(image => {
+      if (!elementIsVisible(image)) {
+        image.classList.add('next-screenshot');
+        image.classList.add('js-next-screenshot');
+      }
+    });
+  };
+
+  fetchImages().then(appendImages);
 
   // INFINITE SCROLL
+  let animating = false;
   const SCROLL_THRESHOLD = 10;
-  window.addEventListener('scroll', () => {
-    const position = document.body.scrollTop + window.innerHeight;
-    const height = document.body.clientHeight;
+  const galleryWrapper = dom.querySelector('.js-gallery-wrapper');
+  galleryWrapper.addEventListener('scroll', () => {
+    const position = galleryWrapper.scrollTop + galleryWrapper.clientHeight;
+    const height = gallery.clientHeight;
 
-    if (position > height - SCROLL_THRESHOLD) {
+    if (!animating && position > height - SCROLL_THRESHOLD) {
+      animating = true;
+      const nextPage = fetchImages();
+
       const screenshots = dom.querySelectorAll('.js-next-screenshot');
 
       screenshots.forEach(screenshot => {
@@ -61,7 +66,10 @@
           screenshot.classList.remove('js-next-screenshot');
           screenshot.classList.remove('animating');
         });
-      }, 500)
+
+        nextPage.then(appendImages);
+        animating = false;
+      }, 500);
     }
   });
 
