@@ -2,6 +2,7 @@ from datetime import datetime
 import glob
 import logging
 import os
+import requests
 from os.path import basename, splitext
 from flask import Flask, request, jsonify
 from werkzeug.utils import secure_filename
@@ -12,6 +13,8 @@ UPLOAD_DIR = '/usr/share/nginx/html/images/'
 TMP_DIR = '/tmp/'
 WATERMARK_PATH = 'parsec-logo.png'
 DEFAULT_PAGE_SIZE = 9
+
+DISCORD_WEBHOOK_URL = 'https://discordapp.com/api/webhooks/337715197240147978/I6M-7ZUdVyEjg6TJeCeRsjIMLM0YxKA9hnnk3e3msJHNgvpjktmq2aUq1xmxIkfFBTCM'
 
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.StreamHandler())
@@ -61,4 +64,10 @@ def create_image():
 
 	os.remove(tmp_file)
 	os.remove(tmp_png_file)
-	return jsonify(path=rel_path(dst_file))
+
+	file_path = rel_path(dst_file)
+
+	requests.post(DISCORD_WEBHOOK_URL, data={
+		'content': 'New screenshot posted in Parsec Gallery! http://localhost:8080/?' + file_path
+	})
+	return jsonify(path=file_path)
