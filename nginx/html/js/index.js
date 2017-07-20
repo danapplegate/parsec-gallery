@@ -45,10 +45,11 @@
   // INFINITE SCROLL
   let animating = false;
   const SCROLL_THRESHOLD = 10;
-  const galleryWrapper = dom.querySelector('.js-gallery-wrapper');
-  galleryWrapper.addEventListener('scroll', () => {
-    const position = galleryWrapper.scrollTop + galleryWrapper.clientHeight;
-    const height = gallery.clientHeight;
+  root.addEventListener('scroll', () => {
+    console.log('test');
+    const position = dom.body.scrollTop + root.innerHeight;
+    const height = dom.body.clientHeight;
+
 
     if (!animating && position > height - SCROLL_THRESHOLD) {
       animating = true;
