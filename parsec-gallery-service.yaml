@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: gallery
+  labels:
+    component: gallery
+spec:
+  selector:
+    component: gallery
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+    protocol: TCP
+  type: "LoadBalancer"

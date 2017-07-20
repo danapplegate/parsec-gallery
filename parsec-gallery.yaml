@@ -1,0 +1,32 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: gallery
+  namespace: default
+  labels:
+    component: gallery
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      component: gallery
+  template:
+    metadata:
+      labels:
+        component: gallery
+    spec:
+      volumes:
+      - name: images
+        emptyDir: {}
+      containers:
+      - name: gallery-nginx
+        image: 589318761596.dkr.ecr.us-east-1.amazonaws.com/gallery-nginx:latest
+        volumeMounts:
+        - mountPath: /usr/share/nginx/html/images
+          name: images
+      - name: gallery-app
+        image: 589318761596.dkr.ecr.us-east-1.amazonaws.com/gallery-app:latest
+        volumeMounts:
+        - mountPath: /usr/share/nginx/html/images
+          name: images
