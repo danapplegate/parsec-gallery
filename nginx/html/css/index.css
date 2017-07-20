@@ -78,20 +78,20 @@ body {
   position: absolute;
   bottom: 0;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
-  transition: 0.5s ease-in-out all;
+  transition: 0.5s all cubic-bezier(1,0,0.5,1);
 }
 
 .next-screenshot:nth-last-child(1) {
-  transform: translate(180%, 80%) rotate(6deg);
+  transform: translate(180%, 85%) rotate(5deg);
 }
 
 .next-screenshot:nth-last-child(2) {
-  transform: translate(100%, 70%) rotate(1deg);
+  transform: translate(100%, 70%) rotate(2deg);
   z-index: 1;
 }
 
 .next-screenshot:nth-last-child(3) {
-  transform: translate(20%, 80%) rotate(-5deg);
+  transform: translate(20%, 85%) rotate(-4deg);
 }
 
 .next-screenshot.animating {
