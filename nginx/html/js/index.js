@@ -98,15 +98,22 @@
     overlay.classList.toggle('visible');
   });
 
-  // const uploader = dom.querySelector('.uploader');
-  // uploader.addEventListener('change', () => {
-  //   const data = new FormData();
-  //   data.append('image', uploader.files[0]);
+  const uploadInput = dom.querySelector('.js-upload-input');
 
-  //   fetch('/images', {
-  //     method: 'POST',
-  //     body: data,
-  //   });
-  // });
+  const uploadSubmit = dom.querySelector('.js-upload-submit');
+  uploadSubmit.addEventListener('click', () => {
+    const data = new FormData();
+    data.append('image', uploadInput.files[0]);
+
+    fetch('/images', {
+      method: 'POST',
+      body: data,
+    })
+      .then(response => response.json())
+      .then(response => {
+        gallery.prepend(renderImage(response.path));
+        overlay.classList.remove('visible');
+      });
+  });
 
 })(window, document);
