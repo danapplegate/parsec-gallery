@@ -15,6 +15,7 @@ WATERMARK_PATH = 'parsec-logo.png'
 DEFAULT_PAGE_SIZE = 9
 
 DISCORD_WEBHOOK_URL = 'https://discordapp.com/api/webhooks/337715197240147978/I6M-7ZUdVyEjg6TJeCeRsjIMLM0YxKA9hnnk3e3msJHNgvpjktmq2aUq1xmxIkfFBTCM'
+GALLERY_HOSTNAME = os.environ.get('GALLERY_HOSTNAME', 'localhost:8080')
 
 logger = logging.getLogger(__name__)
 logger.addHandler(logging.StreamHandler())
@@ -68,6 +69,6 @@ def create_image():
 	file_path = rel_path(dst_file)
 
 	requests.post(DISCORD_WEBHOOK_URL, data={
-		'content': 'New screenshot posted in Parsec Gallery! http://localhost:8080/?' + file_path
+		'content': 'New screenshot posted in Parsec Gallery! http://' + GALLERY_HOSTNAME + '/?' + file_path
 	})
 	return jsonify(path=file_path)
