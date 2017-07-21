@@ -49,31 +49,34 @@
   };
 
   // INFINITE SCROLL
-  let animating = false;
-  const SCROLL_THRESHOLD = 10;
+  let transitioning = false;
+  const ANIMATION_THRESHOLD = 150;
+  const TRANSITION_THRESHOLD = 10;
   const onScroll = () => {
     const position = dom.body.scrollTop + root.innerHeight;
     const height = gallery.clientHeight;
 
-    if (!animating && position > height - SCROLL_THRESHOLD) {
-      animating = true;
+    if (transitioning) { return; }
+    const screenshots = dom.querySelectorAll('.js-next-screenshot');
+
+     if (position > height - TRANSITION_THRESHOLD) {
+      transitioning = true;
       const nextPage = fetchImages(count);
 
-      const screenshots = dom.querySelectorAll('.js-next-screenshot');
-
       screenshots.forEach(screenshot => {
-        screenshot.classList.add('animating');
+        screenshot.style.transform = '';
+        screenshot.classList.add('transitioning');
       });
 
       setTimeout(() => {
         screenshots.forEach(screenshot => {
           screenshot.classList.remove('next-screenshot');
           screenshot.classList.remove('js-next-screenshot');
-          screenshot.classList.remove('animating');
+          screenshot.classList.remove('transitioning');
         });
 
         nextPage.then(appendImages);
-        animating = false;
+        transitioning = false;
       }, 500);
 
       nextPage.then(response => {
@@ -81,6 +84,12 @@
           root.removeEventListener('scroll', onScroll);
         }
       });
+    } else if (position > height - ANIMATION_THRESHOLD) {
+      const distance = (position - (height - ANIMATION_THRESHOLD)) / (ANIMATION_THRESHOLD - TRANSITION_THRESHOLD);
+
+      screenshots[0].style.transform = `translate(${ 20 - distance * 4 }%, ${ 85 - distance * 14 }%) rotate(${ -16 + distance * 6 }deg)`;
+      screenshots[1].style.transform = `translate(${ 100 }%, ${ 65 - distance * 22 }%) rotate(${ -4 + distance * 2 }deg)`;
+      screenshots[2].style.transform = `translate(${ 180 + distance * 4 }%, ${ 80 - distance * 16 }%) rotate(${ 14 - distance * 6 }deg)`;
     }
   };
 
